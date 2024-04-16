@@ -8,7 +8,7 @@
         top: 0;
         height: 70px;
         width: 100%;
-        background-color: #202020;
+        background-color: #202020ab;
         color: white;
         display: flex;
         justify-content: center;
@@ -18,6 +18,7 @@
         font-size: 20pt;
         padding: 12px;
         position: fixed;
+        backdrop-filter: blur(10px); 
    }
    .title {
         transition: all 200ms;
