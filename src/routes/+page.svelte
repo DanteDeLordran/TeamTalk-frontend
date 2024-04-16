@@ -1,6 +1,6 @@
 <script>
     import AppHeader from "./components/Globals/AppHeader.svelte";
-    import LodingWidget from "./components/Globals/LodingWidget.svelte";
+    import LodingWidget from "./components/Globals/LoadingWidget.svelte";
     import LoginCard from "./components/LoginComponent/LoginCard.svelte";
     let loading = false;
 
