@@ -1,6 +1,18 @@
+<script>
+    /** @type {(event: MouseEvent) => void} event */
+    export let onClickHeaderElement = (event) => {};
+</script>
+
 <header class="teamTalkHeader">
-    <img class="appIcon" src="/AppIcon.svg" alt="Icono de la aplicación"/>
-    <h1 class="title">TeamTalk</h1>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+    <img class="appIcon" 
+        src="/AppIcon.svg" 
+        alt="Icono de la aplicación"
+        on:click={onClickHeaderElement}/>
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+    <h1 class="title" on:click={onClickHeaderElement}>TeamTalk</h1>
 </header>
 
 <style>
@@ -24,11 +36,19 @@
         transition: all 200ms;
    }
    .title:hover {
+        cursor: pointer;
         text-shadow: 0px 0px 20px white;
+        color: rgb(255, 255, 255);
+        text-shadow: 0 0 20px rgb(173, 56, 252);
    }
    .appIcon {
         width: 50px;
         height: 50px;
         margin-right: 8px;
-   } 
+        transition: all 200ms;
+   }
+   .appIcon:hover {
+        cursor: pointer;
+        filter: drop-shadow(0 0 20px rgb(173, 56, 252));
+   }
 </style>
