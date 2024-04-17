@@ -1,28 +1,23 @@
-<script>
-    import AppHeader from "./components/Globals/AppHeader.svelte";
-    import LodingWidget from "./components/Globals/LoadingWidget.svelte";
-    import LoginCard from "./components/LoginComponent/LoginCard.svelte";
-    let loading = false;
+<script lang="ts">
+    import AppHeader from '../components/Globals/AppHeader.svelte';
+import type { PageData } from './$types';
+    import RegisterCard from './RegisterCard.svelte';
+    
+    export let data: PageData;
 
-    /**@param {MouseEvent} event */
-    function reload(event) {
-        console.log(event.button)
+
+    function goLogin(event: MouseEvent): void {
         if (event.button === 0) {
             window.open('/', '_self');
         }
     }
 </script>
 
-<AppHeader onClickHeaderElement={reload}/>
+<AppHeader onClickHeaderElement={goLogin}/>
 <main>
-    {#if loading}
-        <LodingWidget />
-    {:else}
     <div>
-        <h1 class="text-sky-50 font-bold text-xl pb-3">Welcome to TeamTalk</h1>
-        <LoginCard registerPageRoute="/Register"/>
+        <RegisterCard />
     </div>
-    {/if}
 </main>
 
 <style>

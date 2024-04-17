@@ -1,0 +1,29 @@
+input {
+    border-color: rgb(111, 0, 255);
+    border-width: 2px;
+    padding: 4px;
+    border-radius: 16px;
+    margin-bottom: 8px
+} 
+.submitButton {
+    background-color: rgb(111, 0, 255, 100%);
+    padding: 8px;
+    border-radius: 16px;
+    color: white;
+    font-weight: bold;
+    transition: all 300ms;
+}
+.submitButton:hover {
+    cursor: pointer;
+    background-color: rgba(111, 0, 255, 0);
+    background: linear-gradient(68deg, rgba(2,0,36,1) 0%,
+                rgba(72,9,121,1) 48%, 
+                rgba(87,7,156,1) 52%,
+                rgba(134,77,189,1) 75%, 
+                rgba(128,0,255,1) 100%);
+    box-shadow: 0 0 20px rgb(170, 114, 243);
+}
+
+.longSubmitButton {
+    width: 100%;
+}

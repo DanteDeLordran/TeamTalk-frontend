@@ -1,9 +1,30 @@
-<script>
+<script lang="ts">
+    // Css imports
+    import '../../styles/inputs.css'
+    import '../../styles/form_texts.css'
 
+    // Svelte modules
+    import type LoginDTO from "../../../api/models/LoginDTO";
 
-    /** @param {Event} event */
-    function handleSubmit(event) {
-        throw new Error("Function not implemented.");
+    // Properties
+    export let onLogin = async (loginEntity: LoginDTO) => {};
+    export let registerPageRoute: string = "/";
+
+    // Data bindings
+    let email: string = "";
+    let password: string = "";
+    
+    function handleSubmit(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement; }) {
+        if (email.length > 0 && password.length > 0) {
+            const loginData: LoginDTO = {email, password};
+            onLogin(loginData);
+        }
+    }
+
+    function goRegister(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {
+        if (event.button === 0) {
+            window.open(registerPageRoute, '_self');
+        }
     }
 </script>
 
@@ -12,56 +33,22 @@
         <h2>Inicia sesión</h2>
         <input  type="email" 
                 placeholder="Ingrese su email"
-                class="textField">
+                bind:value={email}>
         <input  type="password"
                 placeholder="Ingrese su contraseña"
-                class="textField"/>
+                bind:value={password}/>
         <button type="submit"
                 class="submitButton">Iniciar Sesión</button>
     </form>
     <hr />
     <h2>¿No tienes cuenta?</h2>
-    <button class="submitButton">Registrate</button>
+    <button on:click={goRegister}
+            class="submitButton longSubmitButton">Registrate</button>
 </div>
 
 <style>
     .loginCard {
         display: flex;
         flex-direction: column;
-    }
-    h2 {
-        color: white;
-        text-align: center;
-        font-size: large;
-        margin-bottom: 12px;
-    }
-    .textField {
-        border-color: rgb(111, 0, 255);
-        border-width: 2px;
-        padding: 4px;
-        border-radius: 16px;
-        margin-bottom: 8px;
-    }
-    .submitButton {
-        background-color: rgb(111, 0, 255, 100%);
-        padding: 8px;
-        border-radius: 16px;
-        color: white;
-        font-weight: bold;
-        transition: all 300ms;
-        width: 100%;
-    }
-    .submitButton:hover {
-        cursor: pointer;
-        background-color: rgba(111, 0, 255, 0);
-        background: linear-gradient(68deg, rgba(2,0,36,1) 0%,
-                    rgba(72,9,121,1) 48%, 
-                    rgba(87,7,156,1) 52%,
-                    rgba(134,77,189,1) 75%, 
-                    rgba(128,0,255,1) 100%);
-        box-shadow: 0 0 20px rgb(170, 114, 243);
-    }
-    hr {
-        margin: 24px 0 24px 0;
     }
 </style>
