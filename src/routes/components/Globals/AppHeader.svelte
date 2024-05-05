@@ -1,18 +1,6 @@
-<script>
-    /** @type {(event: MouseEvent) => void} event */
-    export let onClickHeaderElement = (event) => {};
-</script>
-
 <header class="teamTalkHeader">
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <img class="appIcon" 
-        src="/AppIcon.svg" 
-        alt="Icono de la aplicación"
-        on:click={onClickHeaderElement}/>
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <h1 class="title" on:click={onClickHeaderElement}>TeamTalk</h1>
+     <img class="appIcon" src="/AppIcon.svg" alt="TeamTalk icon"/>
+     <a href="/"><h1 class="title">TeamTalk</h1></a>
 </header>
 
 <style>

@@ -4,23 +4,16 @@
     import LoginCard from "./components/LoginComponent/LoginCard.svelte";
     let loading = false;
 
-    /**@param {MouseEvent} event */
-    function reload(event) {
-        console.log(event.button)
-        if (event.button === 0) {
-            window.open('/', '_self');
-        }
-    }
 </script>
 
-<AppHeader onClickHeaderElement={reload}/>
+<AppHeader />
 <main>
     {#if loading}
         <LodingWidget />
     {:else}
     <div>
         <h1 class="text-sky-50 font-bold text-xl pb-3">Welcome to TeamTalk</h1>
-        <LoginCard registerPageRoute="/Register"/>
+        <LoginCard/>
     </div>
     {/if}
 </main>

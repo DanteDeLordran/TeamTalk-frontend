@@ -8,7 +8,6 @@
 
     // Properties
     export let onLogin = async (loginEntity: LoginDTO) => {};
-    export let registerPageRoute: string = "/";
 
     // Data bindings
     let email: string = "";
@@ -21,11 +20,6 @@
         }
     }
 
-    function goRegister(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {
-        if (event.button === 0) {
-            window.open(registerPageRoute, '_self');
-        }
-    }
 </script>
 
 <div>
@@ -42,8 +36,7 @@
     </form>
     <hr />
     <h2>¿No tienes cuenta?</h2>
-    <button on:click={goRegister}
-            class="submitButton longSubmitButton">Registrate</button>
+    <a class="submitButton longSubmitButton" href="/Register">Registrate</a>
 </div>
 
 <style>
