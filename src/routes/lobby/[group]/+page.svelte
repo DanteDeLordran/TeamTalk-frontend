@@ -7,7 +7,9 @@
 <h2>Canales</h2>
 <ul>
     {#each data.channels as channel}
-        <li>{channel.channel_name}</li>
+        <a href={`/lobby/${data.groupId}/${channel.id}`}>
+            <li>{channel.channel_name}</li>
+        </a>
     {/each}
     
 </ul>
