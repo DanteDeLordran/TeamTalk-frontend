@@ -2,7 +2,7 @@
 <h1>Channel name</h1>
 <hr>
 
-<div class="w-2/3">
+<div class="px-6">
     <ul class="text-cyan-50">
         <li class="text-left">
             <div>
@@ -30,6 +30,8 @@
     
     </ul>
     
+</div>
+<div >
     <input type="text" name="" id="" placeholder="Write a message">
     <button class="text-cyan-50">Send</button>
 </div>

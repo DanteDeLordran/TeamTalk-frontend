@@ -25,28 +25,27 @@
     });
 
     const deleteSession = () => {
-        sessionStorage.clear()
-    }
+        sessionStorage.clear();
+    };
 </script>
 
 <svelte:head>
     <title>TeamTalk | lobby</title>
-    <meta 
-        name="description"
-        content="TeamTalk {$page.url.pathname}"
-    />
+    <meta name="description" content="TeamTalk {$page.url.pathname}" />
 </svelte:head>
-<div>
-    <aside>
-        <a href="/lobby">Lobby</a>
+<div class="flex">
+    <aside class="w-3/12">
+        <ul>
+            <a href="/lobby"><li>Lobby</li></a>
 
-        {#each groups as group}
-            <a href={`/lobby/${group.id}`}> {group.name} </a>
-        {/each}
+            {#each groups as group}
+                <a href={`/lobby/${group.id}`}> <li>{group.name}</li> </a>
+            {/each}
 
-        <a href="/" on:click={deleteSession}>Logout</a>
+            <a href="/" on:click={deleteSession}><li>Logout</li></a>
+        </ul>
     </aside>
-    <main>
+    <main class="w-9/12">
         <slot />
     </main>
 </div>
