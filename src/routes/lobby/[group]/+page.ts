@@ -20,9 +20,11 @@ export const load = async({params, fetch}) => {
     }
 
     const channels = await fetchChannels(params.group)
-
+    const groupId = params.group
+    
     return {
-        channels
+        channels,
+        groupId
     }
 
 }
