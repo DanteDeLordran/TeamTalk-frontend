@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import type { Group } from "../../api/models/group";
+    import { page } from "$app/stores";
 
     let groups: Group[] = [];
     let token = "";
@@ -28,6 +29,13 @@
     }
 </script>
 
+<svelte:head>
+    <title>TeamTalk | lobby</title>
+    <meta 
+        name="description"
+        content="TeamTalk {$page.url.pathname}"
+    />
+</svelte:head>
 <div>
     <aside>
         <a href="/lobby">Lobby</a>
