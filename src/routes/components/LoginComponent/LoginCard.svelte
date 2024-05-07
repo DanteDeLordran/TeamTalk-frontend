@@ -3,9 +3,11 @@
     import '../../styles/form_texts.css'
 
     import type LoginDTO from "../../../api/models/LoginDTO";
+    import { goto } from '$app/navigation';
 
     let email: string = "";
     let password: string = "";
+    let token = ''
     
     const handleLogin = async() => {
         if (email.length > 0 && password.length > 0) {
@@ -18,8 +20,9 @@
                     "Content-Type": "application/json"
                 },
             })
-            console.log(await response.status)
-            console.log(await response.json())
+            token = await response.json()
+            sessionStorage.setItem('token', token)
+            goto('/lobby')
         }
     }
 
