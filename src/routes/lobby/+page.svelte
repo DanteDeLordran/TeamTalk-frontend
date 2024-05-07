@@ -1,3 +1,3 @@
 <div>
-    <h1>Que once desde el lobby</h1>
+    <h1>Este es tu perfil</h1>
 </div>

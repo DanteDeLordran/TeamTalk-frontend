@@ -33,7 +33,7 @@
         <a href="/lobby">Lobby</a>
 
         {#each groups as group}
-            <a href={`/lobby/${group.name}`}> {group.name} </a>
+            <a href={`/lobby/${group.id}`}> {group.name} </a>
         {/each}
 
         <a href="/" on:click={deleteSession}>Logout</a>

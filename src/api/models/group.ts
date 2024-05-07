@@ -1,4 +1,5 @@
 export interface Group {
+    id: string
     name:         string;
     members:      Member[];
     roles:        Role[];
@@ -30,4 +31,10 @@ export interface Role {
     can_manage_group:           boolean;
     can_delete_group:           boolean;
     can_accept_participants:    boolean;
+}
+
+export interface Channel {
+    id:           string;
+    group_id:     string;
+    channel_name: string;
 }
