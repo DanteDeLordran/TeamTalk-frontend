@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import type { Group } from "../../api/models/group";
+    import { page } from "$app/stores";
 
     let groups: Group[] = [];
     let token = "";
@@ -24,21 +25,27 @@
     });
 
     const deleteSession = () => {
-        sessionStorage.clear()
-    }
+        sessionStorage.clear();
+    };
 </script>
 
-<div>
-    <aside>
-        <a href="/lobby">Lobby</a>
+<svelte:head>
+    <title>TeamTalk | lobby</title>
+    <meta name="description" content="TeamTalk {$page.url.pathname}" />
+</svelte:head>
+<div class="flex">
+    <aside class="w-1/5">
+        <ul>
+            <a href="/lobby"><li>Lobby</li></a>
 
-        {#each groups as group}
-            <a href={`/lobby/${group.id}`}> {group.name} </a>
-        {/each}
+            {#each groups as group}
+                <a href={`/lobby/${group.id}`}> <li>{group.name}</li> </a>
+            {/each}
 
-        <a href="/" on:click={deleteSession}>Logout</a>
+            <a href="/" on:click={deleteSession}><li>Logout</li></a>
+        </ul>
     </aside>
-    <main>
+    <main class="w-4/5 overflow-auto h-screen">
         <slot />
     </main>
 </div>
