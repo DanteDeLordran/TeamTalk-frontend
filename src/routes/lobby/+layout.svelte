@@ -34,7 +34,7 @@
     <meta name="description" content="TeamTalk {$page.url.pathname}" />
 </svelte:head>
 <div class="flex">
-    <aside class="w-3/12">
+    <aside class="w-1/5">
         <ul>
             <a href="/lobby"><li>Lobby</li></a>
 
@@ -45,7 +45,7 @@
             <a href="/" on:click={deleteSession}><li>Logout</li></a>
         </ul>
     </aside>
-    <main class="w-9/12">
+    <main class="w-4/5 overflow-auto h-screen">
         <slot />
     </main>
 </div>

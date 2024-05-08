@@ -1,9 +1,11 @@
 <script lang="ts">
+    import { invalidateAll } from '$app/navigation';
     import type { MessageRequest } from '../../../../api/models/message.js';
 
     export let data;
 
     let message = ''
+    let bottom : HTMLElement
 
     const createNewMessage = async() => {
         const messageRequest : MessageRequest = {
@@ -20,21 +22,26 @@
                     token: data.token
                 },
             })
+        if (response.ok) {
+            message = ''
+            invalidateAll()
+            bottom.scrollIntoView({ behavior: 'smooth' })
+        }
 
     }
 
 </script>
 
-<h1>Channel name</h1>
-<hr />
-
+<div class="fixed top-0 w-full bg-slate-800 text-cyan-50" >
+    <h1>Channel name</h1>
+</div>
 <div class="px-6">
     {#if data.messages.length == 0}
         <div>Sin mensajes , sé el primero en escribir !</div>
     {:else}
-        <ul class="text-cyan-50">
+        <ul class="text-cyan-50 my-9">
             {#each data.messages as message}
-                <li
+                <li class="py-3"
                     class:text-left={message.user_id !== data.userId}
                     class:text-right={message.user_id == data.userId}
                 >
@@ -46,9 +53,12 @@
                 </li>
             {/each}
         </ul>
+        <div bind:this={bottom}></div>
     {/if}
 </div>
-<div>
-    <input type="text" placeholder="Write a message" bind:value={message}/>
-    <button class="text-cyan-50" disabled={message.length == 0} on:click={createNewMessage}>Send</button>
+<div class="fixed bottom-0 w-full bg-slate-800 text-cyan-50">
+    <form on:submit={createNewMessage}>
+        <input class="text-black" type="text" placeholder="Write a message" bind:value={message}/>
+        <button disabled={message.length == 0} >Send</button>
+    </form>
 </div>
