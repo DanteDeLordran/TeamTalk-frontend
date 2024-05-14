@@ -1,19 +1,9 @@
 <script lang="ts">
     import AppHeader from '../components/Globals/AppHeader.svelte';
-import type { PageData } from './$types';
     import RegisterCard from './RegisterCard.svelte';
-    
-    export let data: PageData;
-
-
-    function goLogin(event: MouseEvent): void {
-        if (event.button === 0) {
-            window.open('/', '_self');
-        }
-    }
 </script>
 
-<AppHeader onClickHeaderElement={goLogin}/>
+<AppHeader />
 <main>
     <div>
         <RegisterCard />
