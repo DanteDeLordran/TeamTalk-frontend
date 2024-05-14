@@ -14,12 +14,8 @@
 
     function handleSubmit(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement; }) {
         
-        console.log('Doing stuff...')
-        
         if (password !== confirmPassword)
             return alert('Las contraseñas proporcionadas no coinciden');
-        
-        console.log('Doing this other stuff...')
 
         const registerData: RegisterLocalInfo = {
             name,

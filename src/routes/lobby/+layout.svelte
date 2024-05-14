@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
     import type { Group } from "../../api/models/group";
     import { page } from "$app/stores";
+    import '../styles/menus.css';
 
     let groups: Group[] = [];
     let token = "";
@@ -34,18 +35,17 @@
     <meta name="description" content="TeamTalk {$page.url.pathname}" />
 </svelte:head>
 <div class="flex">
-    <aside class="w-1/5">
-        <ul>
-            <a href="/lobby"><li>Lobby</li></a>
-
+    <aside class="w-1/5 menu leftsidemenu">
+        <a class="section_name" href="/lobby">Lobby</a>
+        <div class="channelmenu">
             {#each groups as group}
-                <a href={`/lobby/${group.id}`}> <li>{group.name}</li> </a>
+            <a class="channel_button" href={`/lobby/${group.id}`}> {group.name} </a>
             {/each}
+        </div>
 
-            <a href="/" on:click={deleteSession}><li>Logout</li></a>
-        </ul>
+        <a class="menu_option" href="/" on:click={deleteSession}>Logout</a>
     </aside>
-    <main class="w-4/5 overflow-auto h-screen">
+    <main class="w-4/5 overflow-auto h-screen menu rightsidemenu">
         <slot />
     </main>
 </div>
