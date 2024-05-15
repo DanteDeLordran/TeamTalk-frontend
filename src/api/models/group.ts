@@ -43,3 +43,7 @@ export interface ChannelRequest {
     group_id:     string;
     channel_name: string;
 }
+
+export interface GroupRequest {
+    name:         string;
+}
