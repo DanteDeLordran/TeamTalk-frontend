@@ -1,9 +1,9 @@
 <script lang="ts">
   import { json } from '@sveltejs/kit';
   import type RegisterLocalInfo from '../../api/models/RegisterLocalInfo';
-    import AppHeader from '../components/Globals/AppHeader.svelte';
-    import type { PageData } from './$types';
-    import RegisterCard from './RegisterCard.svelte';
+  import AppHeader from '../components/Globals/AppHeader.svelte';
+  import type { PageData } from './$types';
+  import RegisterCard from './RegisterCard.svelte';
   import LoadingWidget from '../components/Globals/LoadingWidget.svelte';
   import { goto } from '$app/navigation';
     
