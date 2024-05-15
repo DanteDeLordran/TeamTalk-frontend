@@ -48,7 +48,7 @@
                     <div>
                         <span>{message.user_id}</span>
                         <p>{message.message}</p>
-                        <span>{message.createdAt}</span>
+                        <span>{new Date(message.createdAt).toLocaleString()}</span>
                     </div>
                 </li>
             {/each}

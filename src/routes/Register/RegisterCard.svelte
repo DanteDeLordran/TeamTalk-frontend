@@ -12,7 +12,11 @@
     let password = "";
     let confirmPassword = "";
 
-    function handleSubmit(event: SubmitEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {
+    function handleSubmit(event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement; }) {
+        
+        if (password !== confirmPassword)
+            return alert('Las contraseñas proporcionadas no coinciden');
+
         const registerData: RegisterLocalInfo = {
             name,
             lastname,
@@ -26,7 +30,7 @@
     }
 </script>
 
-<form>
+<form on:submit|preventDefault={handleSubmit}>
     <h2>Registrese llenando los campos</h2>
     <input bind:value={name} type="text" placeholder="Nombre" required/>
     <input bind:value={lastname} type="text" placeholder="Apellido" required/>
@@ -34,7 +38,7 @@
     <input bind:value={email} type="email" placeholder="Email" required/>
     <input bind:value={password} type="password" placeholder="Contraseña" required/>
     <input bind:value={confirmPassword} type="password" placeholder="Confirmar contraseña" required/>
-    <button type="submit" class="submitButton" on:submit|preventDefault={handleSubmit}>Registrarse</button>
+    <button type="submit" class="submitButton">Registrarse</button>
 </form>
 
 <style>
