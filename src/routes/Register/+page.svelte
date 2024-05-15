@@ -6,42 +6,44 @@
   import RegisterCard from './RegisterCard.svelte';
   import LoadingWidget from '../components/Globals/LoadingWidget.svelte';
   import { goto } from '$app/navigation';
+  import { Users } from '../../api/roots/api_services';
+  import { ErrRegister } from '../../api/roots/err_types';
     
     export let data: PageData;
     let loading = false;
 
-    async function register(data: RegisterLocalInfo) {
+    async function register(loginData: RegisterLocalInfo) {
         loading = true;
-        const response = await fetch('http://localhost:8000/users/register', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
 
-        if (response.status >= 400) {
-            const responseJson = await response.json();
-            switch (responseJson?.message) {
-                case 'SOME_EMPTY_FIELDS':
-                    alert('Compruebe que todos los campos esten completos');
-                    break;
-                case 'NOT_VALID_EMAIL':
-                    alert('Compruebe que haya escrito un email válido')
-                    break;
-                case 'NOT_VALID_PASSWORDS':
-                    alert('Compruebe que la contraseña sea válida (Debe contener mayúsculas y minúsculas, almenos un cáracter especial, letras y números y una longitud mínima de 8 cáracteres)');
-                    break;
-                case 'USER_EXISTS':
-                    alert('Ya hay un usuario con ese nombre de usuario o correo electrónico')
-                    break;
-            }
+        const response = await Users.register(loginData);
+
+        if (response === ErrRegister.NOT_VALID_EMAIL) {
+            loading = false;
+            alert('Compruebe que haya escrito un email válido');
+            return;
+        }
+
+        if (response === ErrRegister.NOT_VALID_PASSWORD) {
+            loading = false;
+            alert('Compruebe que la contraseña sea válida (Debe contener mayúsculas y minúsculas, al menos un cáracter especial, letras y números y una longitud mínima de 8 cáracteres)');
+            return;
+        }
+
+        if (response === ErrRegister.USER_EXISTS) {
+            loading = false;
+            alert('Ya hay un usuario con ese nombre de usuario o correo electrónico');
+            return;
+        }
+
+        if (response === ErrRegister.SOME_EMPTY_FIELDS) {
+            loading = false;
+            alert('Compruebe que todos los campos esten completos');
+            return;
         }
 
         loading = false;
+        goto('/');
 
-        if (response.status === 201)
-            goto('/')
     }
 
 </script>

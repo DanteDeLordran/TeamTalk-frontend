@@ -4,37 +4,54 @@
 
     import type LoginDTO from "../../../api/models/LoginDTO";
     import { goto } from '$app/navigation';
-    import type { User } from '../../../api/models/user';
+    import { Users } from '../../../api/roots/api_services';
+    import { ErrLogin, ErrToken } from '../../../api/roots/err_types';
 
     let email: string = "";
     let password: string = "";
-    let token = ''
     
     const handleLogin = async() => {
         if (email.length > 0 && password.length > 0) {
             const loginData: LoginDTO = {email, password};
-            const response = await fetch('http://localhost:8000/users/login',{
-                method: 'POST',
-                body: JSON.stringify(loginData),
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            })
-            token = await response.json()
 
-            const userResponse = await fetch('http://localhost:8000/users/authenticate', {
-                method: 'GET',
-                headers: {
-                    "Content-Type": "application/json",
-                    token : token
-                },
-            })
+            const token = await Users.login(loginData);
 
-            let user : User = await userResponse.json()
+            if (token === undefined) {
+                const res = confirm('Las credenciales no son válidas, ¿Desea registrarse?');
+                if (res)
+                    goto('/Register');
 
-            sessionStorage.setItem('user_id', user.id)
-            sessionStorage.setItem('token', token)
-            goto('/lobby')
+                return;
+            }
+
+            if (token === ErrLogin.NOT_VALID_EMAIL) {
+                alert('El correo electrónico no es válido');
+                return;
+            }
+
+            if (token === ErrLogin.NOT_VALID_PASSWORD) {
+                alert('La contraseña no es válida');
+                return;
+            }
+
+            const userResponse = await Users.authenticate(token);
+
+            if (userResponse === ErrToken.NOT_GIVEN_TOKEN) {
+                alert('No se ha iniciado sesión');
+                goto('/');
+                return;
+            }
+
+            if (userResponse === ErrToken.NOT_VALID_TOKEN) {
+                alert('Su sesión ha expirado');
+                goto('/');
+                return;
+            }
+
+            sessionStorage.setItem('user_id', userResponse.id);
+            sessionStorage.setItem('token', token);
+            goto('/lobby');
+
         }
     }
 
