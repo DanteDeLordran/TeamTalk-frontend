@@ -38,3 +38,8 @@ export interface Channel {
     group_id:     string;
     channel_name: string;
 }
+
+export interface ChannelRequest {
+    group_id:     string;
+    channel_name: string;
+}

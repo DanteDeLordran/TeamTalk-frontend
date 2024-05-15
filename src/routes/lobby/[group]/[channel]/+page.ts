@@ -1,3 +1,4 @@
+import { goto } from '$app/navigation'
 import type { Message } from '../../../../api/models/message.js'
 
 export const load = async({fetch, params}) => {
@@ -10,6 +11,8 @@ export const load = async({fetch, params}) => {
     if (sessionToken && sessionUser) {
         token = sessionToken
         userId = sessionUser
+    }else{
+        goto('/')
     }
 
     const fetchMessages = async(id : string) => {
