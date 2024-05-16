@@ -3,6 +3,9 @@
     import type { Group } from "../../api/models/group";
     import { page } from "$app/stores";
     import '../styles/menus.css';
+    import { Groups } from "../../api/roots/api_services";
+    import { ErrToken } from "../../api/roots/err_types";
+    import { goto } from "$app/navigation";
 
     let groups: Group[] = [];
     let token = "";
@@ -11,17 +14,15 @@
         const session = sessionStorage.getItem("token");
         if (session) {
             token = session;
-            const response = await fetch("http://localhost:8000/groups/All", {
-                method: "GET",
-                headers: {
-                    token: token,
-                },
-            });
-            if (response.ok) {
-                groups = await response.json();
-            } else {
-                console.error("Failed to fetch groups");
+            const groups_res = await Groups.getUserGroups(token);
+            if (groups_res === ErrToken.NOT_GIVEN_TOKEN || groups_res === ErrToken.NOT_VALID_TOKEN) {
+                alert('La sesión caducó, ¡Vuelva a iniciar sesión!');
+                sessionStorage.clear();
+                goto('/');
+                return;
             }
+
+            groups = groups_res;
         }
     });
 
