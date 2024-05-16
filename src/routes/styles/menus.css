@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     background-color: #202020c0;
+    color: white;
     user-select: none;
     backdrop-filter: blur(5px);
     transition: all 200ms;
@@ -12,6 +13,7 @@
 }
 
 .leftsidemenu {
+    min-width: 6cm;
     margin-right: 3mm;
     transition: all 200ms;
     border-right: solid 1mm #363636c0;

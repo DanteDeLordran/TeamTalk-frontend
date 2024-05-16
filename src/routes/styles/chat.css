@@ -1,0 +1,32 @@
+.chatContainer {
+    height: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    padding: 4mm;
+}
+
+.chatBubble {
+    background-color: rgb(77, 0, 128);
+    width: fit-content;
+    margin-bottom: 2mm;
+    border-radius: 3mm;
+    padding: 2mm;
+    user-select: text;
+    max-width: 60%;
+}
+
+.chatBubble p {
+    word-wrap: break-word;
+}
+
+.rightBubble {
+    align-self: flex-end;
+}
+
+.messageInput {
+   border-radius: 4mm;
+   padding: 1mm;
+   resize: none;
+   border: solid 1mm  rgb(77, 0, 128);
+}

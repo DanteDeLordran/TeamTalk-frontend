@@ -1,6 +1,8 @@
 <script lang="ts">
-    import { invalidateAll } from "$app/navigation";
+    import { goto, invalidateAll } from "$app/navigation";
     import type { ChannelRequest } from "../../../api/models/group.js";
+  import { Channels } from "../../../api/roots/api_services.js";
+  import { ErrChannelCreate } from "../../../api/roots/err_types.js";
 
     export let data;
 
@@ -8,24 +10,36 @@
     let showModal = false
 
     const createNewChannel = async () => {
+
+        if (data.groupId === undefined) {
+            return;
+        }
+
         const channel: ChannelRequest = {
             group_id: data.groupId,
             channel_name: channelName,
         };
 
-        const response = await fetch("http://localhost:8000/channels/create", {
-            method: "POST",
-            body: JSON.stringify(channel),
-            headers: {
-                "Content-Type": "application/json",
-                token: data.token,
-            },
-        });
-        if (response.ok) {
-            channelName = ''
-            invalidateAll()
-            showModal = false
+        const create_channel_response = await Channels.create(channel, data.token);
+
+        if (create_channel_response === ErrChannelCreate.EXISTING_CHANNEL) {
+            alert('Ya existe un canal con ese nombre');
+            return;
         }
+
+        if (create_channel_response === ErrChannelCreate.NOT_GIVEN_TOKEN 
+            || create_channel_response === ErrChannelCreate.NOT_VALID_TOKEN) {
+            
+            alert('La sesión caducó, ¡Vuelva a iniciar sesión!');
+            sessionStorage.clear();
+            goto('/');
+            return;
+        }
+
+        channelName = '';
+        invalidateAll();
+        showModal = false;
+
     };
 </script>
 
@@ -35,11 +49,15 @@
 
 <button on:click={()=>{showModal = true}}>Crear canal nuevo</button>
 <ul>
+    {#if data.channels}
     {#each data.channels as channel}
         <a href={`/lobby/${data.groupId}/${channel.id}`}>
             <li>{channel.channel_name}</li>
         </a>
     {/each}
+    {:else}
+    <p>No estás unido a ningún canal</p>
+    {/if}
 </ul>
 
 {#if showModal}

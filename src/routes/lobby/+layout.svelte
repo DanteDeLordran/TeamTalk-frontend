@@ -17,6 +17,7 @@
             const groups_res = await Groups.getUserGroups(token);
             if (groups_res === ErrToken.NOT_GIVEN_TOKEN || groups_res === ErrToken.NOT_VALID_TOKEN) {
                 alert('La sesión caducó, ¡Vuelva a iniciar sesión!');
+                sessionStorage.clear();
                 goto('/');
                 return;
             }
