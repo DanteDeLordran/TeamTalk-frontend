@@ -41,7 +41,7 @@
 </script>
 
 <div class="fixed top-0 w-full bg-zinc-900 text-cyan-50" >
-    <h1 class="text-center py-2">Channel name</h1>
+    <h1 class="text-center py-2">Channel {data.channelId}</h1>
 </div>
 {#if messages.length === 0}
 <div class="text-center">Sin mensajes , sé el primero en escribir !</div>
