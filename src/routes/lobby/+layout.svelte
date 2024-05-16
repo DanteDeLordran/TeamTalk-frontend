@@ -1,16 +1,19 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import { invalidate } from "$app/navigation";
     import type { Group } from "../../api/models/group";
-    import { page } from "$app/stores";
-    import '../styles/menus.css';
     import { Groups } from "../../api/roots/api_services";
     import { ErrToken } from "../../api/roots/err_types";
     import { goto } from "$app/navigation";
+    import { page } from "$app/stores";
+    import '../styles/menus.css';
 
     let groups: Group[] = [];
     let token = "";
 
-    onMount(async () => {
+    $: {fetchGroups();}
+
+    async function fetchGroups() {
         const session = sessionStorage.getItem("token");
         if (session) {
             token = session;
@@ -24,7 +27,7 @@
 
             groups = groups_res;
         }
-    });
+    }
 
     const deleteSession = () => {
         sessionStorage.clear();
