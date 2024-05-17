@@ -10,13 +10,19 @@
     let email: string = "";
     let password: string = "";
     
+    export let whenLoading: (loading: boolean) => void = (loading: boolean) => {};
+    
     const handleLogin = async() => {
         if (email.length > 0 && password.length > 0) {
+
+            whenLoading(true);
+
             const loginData: LoginDTO = {email, password};
 
             const token = await Users.login(loginData);
 
             if (token === undefined) {
+                whenLoading(false);
                 const res = confirm('Las credenciales no son válidas, ¿Desea registrarse?');
                 if (res)
                     goto('/Register');
@@ -25,11 +31,13 @@
             }
 
             if (token === ErrLogin.NOT_VALID_EMAIL) {
+                whenLoading(false);
                 alert('El correo electrónico no es válido');
                 return;
             }
 
             if (token === ErrLogin.NOT_VALID_PASSWORD) {
+                whenLoading(false);
                 alert('La contraseña no es válida');
                 return;
             }
@@ -37,12 +45,14 @@
             const userResponse = await Users.authenticate(token);
 
             if (userResponse === ErrToken.NOT_GIVEN_TOKEN) {
+                whenLoading(false);
                 alert('No se ha iniciado sesión');
                 goto('/');
                 return;
             }
 
             if (userResponse === ErrToken.NOT_VALID_TOKEN) {
+                whenLoading(false);
                 alert('Su sesión ha expirado');
                 goto('/');
                 return;
@@ -50,6 +60,7 @@
             sessionStorage.setItem('user',JSON.stringify(userResponse))
             sessionStorage.setItem('user_id', userResponse.id);
             sessionStorage.setItem('token', token);
+            whenLoading(false);
             goto('/lobby');
 
         }

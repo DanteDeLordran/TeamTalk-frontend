@@ -1,8 +1,12 @@
-<script>
+<script lang="ts">
     import AppHeader from "./components/Globals/AppHeader.svelte";
     import LodingWidget from "./components/Globals/LoadingWidget.svelte";
     import LoginCard from "./components/LoginComponent/LoginCard.svelte";
     let loading = false;
+
+    function setLoading(loadingValue: boolean) {
+        loading = loadingValue;
+    }
 
 </script>
 
@@ -13,7 +17,7 @@
     {:else}
     <div>
         <h1 class="text-sky-50 font-bold text-xl pb-3">Welcome to TeamTalk</h1>
-        <LoginCard/>
+        <LoginCard whenLoading={setLoading}/>
     </div>
     {/if}
 </main>
