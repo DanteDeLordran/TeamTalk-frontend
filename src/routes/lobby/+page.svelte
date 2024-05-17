@@ -1,49 +1,35 @@
 <script lang="ts">
-    import { invalidate, invalidateAll } from '$app/navigation';
-    import type { GroupRequest } from '../../api/models/group.js';
-
     export let data
-    let showModal = false
-    let groupName = ''
-
-    const createNewGroup = async() => {
-
-        const groupRequest : GroupRequest = {
-            name : groupName
-        }
-
-        const response = await fetch('http://localhost:8000/groups/create', {
-            method: 'POST',
-            headers : {
-                token : data.token,
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(groupRequest)
-        })
-
-        if (response.ok) {
-            groupName = ''
-            showModal = false
-            invalidate('/lobby')
-        }
-    }
-</script>
-
-<div>
-    <h1>Este es tu perfil</h1>
-
-    <button class="bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700" on:click={()=>{showModal = true}}>
-        Crear grupo nuevo
-    </button>
-</div>
-
-{#if showModal}
-    <div>
-        <h2>Create New Group</h2>
-        <form on:submit|preventDefault={createNewGroup}>
-            <label for="groupName" placeholder='Nombre de grupo'>Group Name:</label>
-            <input id="groupName" bind:value={groupName} required class="text-black"/>
-            <button type="submit">Create</button>
-        </form>
+    </script>
+    
+    <div class="flex flex-col items-center justify-center min-h-screen">
+        <h1 class="text-4xl font-bold mb-4">Este es tu perfil</h1>
+    
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                    Username
+                </label>
+                <p id="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight">{data.user.username}</p>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                    Email
+                </label>
+                <p id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight">{data.user.email}</p>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                    Name
+                </label>
+                <p id="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight">{data.user.name}</p>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="lastname">
+                    Last Name
+                </label>
+                <p id="lastname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight">{data.user.lastname}</p>
+            </div>
+        </div>
     </div>
-{/if}
+    

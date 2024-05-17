@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { invalidate } from "$app/navigation";
-    import type { Group } from "../../api/models/group";
+    import { invalidate, invalidateAll } from "$app/navigation";
+    import type { Group, GroupRequest } from "../../api/models/group";
     import { Groups } from "../../api/roots/api_services";
     import { ErrToken } from "../../api/roots/err_types";
     import { goto } from "$app/navigation";
@@ -32,6 +32,32 @@
     const deleteSession = () => {
         sessionStorage.clear();
     };
+
+    let showModal = false
+    let groupName = ''
+
+    const createNewGroup = async() => {
+
+        const groupRequest : GroupRequest = {
+            name : groupName
+        }
+
+        const response = await fetch('http://localhost:8000/groups/create', {
+            method: 'POST',
+            headers : {
+                token : token,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(groupRequest)
+        })
+
+        if (response.ok) {
+            groupName = ''
+            showModal = false
+            invalidateAll()
+            await fetchGroups()
+        }
+    }
 </script>
 
 <svelte:head>
@@ -47,9 +73,23 @@
             {/each}
         </div>
 
+        <button class="bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700" on:click={()=>{showModal = true}}>
+            Crear grupo nuevo
+        </button>
         <a class="menu_option" href="/" on:click={deleteSession}>Logout</a>
     </aside>
     <main class="w-4/5 overflow-auto h-screen menu rightsidemenu">
         <slot />
     </main>
 </div>
+
+{#if showModal}
+    <div>
+        <h2>Create New Group</h2>
+        <form on:submit|preventDefault={createNewGroup}>
+            <label for="groupName" placeholder='Nombre de grupo'>Group Name:</label>
+            <input id="groupName" bind:value={groupName} required class="text-black"/>
+            <button type="submit">Create</button>
+        </form>
+    </div>
+{/if}

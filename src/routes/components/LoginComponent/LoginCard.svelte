@@ -47,7 +47,7 @@
                 goto('/');
                 return;
             }
-
+            sessionStorage.setItem('user',JSON.stringify(userResponse))
             sessionStorage.setItem('user_id', userResponse.id);
             sessionStorage.setItem('token', token);
             goto('/lobby');
