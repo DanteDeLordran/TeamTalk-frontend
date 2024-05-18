@@ -5,6 +5,7 @@ export namespace Routes {
     export const registerRoute = '/users/register';
     export const loginRoute = '/users/login';
     export const authenticateRoute = '/users/authenticate';
+    export const updateUserRoute = '/users/edit'
 
     // Group routes
     export const createGroupRoute = '/groups/create';

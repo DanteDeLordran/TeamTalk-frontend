@@ -2,9 +2,9 @@ import type LoginDTO from '../models/LoginDTO';
 import type RegisterLocalInfo from '../models/RegisterLocalInfo';
 import type { Channel, ChannelRequest, Group } from '../models/group';
 import type { Message, MessageRequest } from '../models/message';
-import type { User } from '../models/user';
+import type { User, UserRequest } from '../models/user';
 import {ApiUri, Routes} from './api_routes';
-import { ErrChannelCreate, ErrGroupCreate, ErrLogin, ErrMessageDelete, ErrRegister, ErrToken } from './err_types';
+import { ErrChannelCreate, ErrGroupCreate, ErrLogin, ErrMessageDelete, ErrRegister, ErrToken, ErrUserEdit } from './err_types';
 
 export namespace Users {
    
@@ -89,6 +89,37 @@ export namespace Users {
         return user;
 
     }
+    
+    export async function editUser(request: UserRequest, token: string): Promise<undefined | ErrUserEdit> {
+        const route = Routes.updateUserRoute;
+        const res = await fetch(`${ApiUri}${route}`, {
+            method: 'UPDATE',
+            headers: {
+                'content-type': 'application/json',
+                token
+            }
+        });
+
+        if (res.status === 400) {
+            const err_type = await res.json();
+
+            switch (err_type.message) {
+                case 'NOT_VALID_TOKEN':
+                    return ErrUserEdit.NOT_VALID_TOKEN;
+                case 'NOT_GIVEN_TOKEN':
+                    return ErrUserEdit.NOT_GIVEN_TOKEN;
+                case 'TAKEN_USERNAME':
+                    return ErrUserEdit.TAKEN_USERNAME;
+                case 'TAKEN_EMAIL':
+                    return ErrUserEdit.TAKEN_EMAIL;
+                case 'NOT_VALID_EMAIL':
+                    return ErrUserEdit.NOT_VALID_EMAIL;
+            }
+
+            return undefined;
+        }
+    }
+
 }
 
 export namespace Groups {

@@ -14,7 +14,6 @@ export enum ErrToken {
     NOT_VALID_TOKEN,
 }
 
-
 export enum ErrGroupCreate {
     NOT_VALID_TOKEN,
     NOT_GIVEN_NAME,
@@ -32,4 +31,12 @@ export enum ErrMessageDelete {
     NOT_PARTICIPANT,
     NOT_FOUND,
     NOT_ALLOWED,
+}
+
+export enum ErrUserEdit {
+    NOT_GIVEN_TOKEN,
+    NOT_VALID_TOKEN,
+    NOT_VALID_EMAIL,
+    TAKEN_USERNAME,
+    TAKEN_EMAIL,
 }
