@@ -7,6 +7,7 @@
     import { goto } from "$app/navigation";
     import { page } from "$app/stores";
     import '../styles/menus.css';
+  import OkCancelModal from "../components/Globals/OKCancelModal.svelte";
 
     let groups: Group[] = [];
     let token = "";
@@ -37,6 +38,11 @@
     let groupName = ''
 
     const createNewGroup = async() => {
+
+        if (groupName.length === 0) {
+            alert('Especifique el nombre del grupo');
+            return;
+        }
 
         const groupRequest : GroupRequest = {
             name : groupName
@@ -84,12 +90,13 @@
 </div>
 
 {#if showModal}
-    <div>
-        <h2>Create New Group</h2>
+    <OkCancelModal
+        title="Crear un grupo nuevo" oklabel="Crear" cancelLabel="Cancelar"
+        whenOk={createNewGroup}
+        whenCancel={() => {showModal = false}}>
         <form on:submit|preventDefault={createNewGroup}>
-            <label for="groupName" placeholder='Nombre de grupo'>Group Name:</label>
+            <label for="groupName" placeholder='Nombre de grupo'>Nombre del grupo:</label>
             <input id="groupName" bind:value={groupName} required class="text-black"/>
-            <button type="submit">Create</button>
         </form>
-    </div>
+    </OkCancelModal>
 {/if}
