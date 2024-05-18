@@ -4,7 +4,7 @@ import type { Channel, ChannelRequest, Group } from '../models/group';
 import type { Message, MessageRequest } from '../models/message';
 import type { User } from '../models/user';
 import {ApiUri, Routes} from './api_routes';
-import { ErrChannelCreate, ErrGroupCreate, ErrLogin, ErrRegister, ErrToken, ErrTypes } from './err_types';
+import { ErrChannelCreate, ErrGroupCreate, ErrLogin, ErrMessageDelete, ErrRegister, ErrToken } from './err_types';
 
 export namespace Users {
    
@@ -264,5 +264,39 @@ export namespace Messages {
         }
 
         return messages;
+    }
+
+    export async function deleteMessage(message_id: string, token: string): Promise<undefined | ErrMessageDelete> {
+        const route = Routes.deleteMessageRoute;
+        const res = await fetch(`${ApiUri}${route}${message_id}`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+                token
+            }
+        });
+
+        if (res.status === 404)
+            return ErrMessageDelete.NOT_FOUND;
+
+        if (res.status === 403)
+            return ErrMessageDelete.NOT_ALLOWED;
+
+        if (res.status === 401)
+            return ErrMessageDelete.NOT_PARTICIPANT;
+
+        if (res.status === 400) {
+            const err_type = await res.json();
+
+            switch (err_type.message) {
+                case 'NOT_VALID_TOKEN':
+                    return ErrMessageDelete.NOT_VALID_TOKEN;
+                case 'NOT_GIVEN_TOKEN':
+                    return ErrMessageDelete.NOT_GIVEN_TOKEN;
+            }
+        }
+
+        return undefined;
+
     }
 }
