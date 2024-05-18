@@ -3,6 +3,7 @@
     import type { ChannelRequest } from "../../../api/models/group.js";
     import { Channels } from "../../../api/roots/api_services.js";
     import { ErrChannelCreate } from "../../../api/roots/err_types.js";
+    import OkCancelModal from "../../components/Globals/OKCancelModal.svelte";
     import '../../styles/inputs.css'
 
     export let data;
@@ -11,6 +12,11 @@
     let showModal = false
 
     const createNewChannel = async () => {
+
+        if (channelName.length === 0) {
+            alert('Especifique un nombre para el canal');
+            return
+        }
 
         if (data.groupId === undefined) {
             return;
@@ -65,12 +71,12 @@
 </button>
 
 {#if showModal}
-    <div>
-        <h2>Create New Channel</h2>
+    <OkCancelModal title="Crear un canal" oklabel="Crear" cancelLabel="Cancelar"
+    whenOk={createNewChannel}
+    whenCancel={() => {showModal = false}}>
         <form on:submit|preventDefault={createNewChannel}>
-            <label for="channelName">Channel Name:</label>
-            <input id="channelName" bind:value={channelName} required />
-            <button type="submit">Create</button>
+            <label for="channelName">Nombre del Canal:</label>
+            <input id="channelName" class="text-black" bind:value={channelName} required />
         </form>
-    </div>
+    </OkCancelModal>
 {/if}

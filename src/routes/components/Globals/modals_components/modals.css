@@ -1,0 +1,44 @@
+.modal {
+    position: absolute;
+    background-color: #202020c7;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 1cm 1mm black;
+    padding: 5mm;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5mm;
+    color: white;
+}
+
+.childrenContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4mm;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: right;
+}
+
+.modalButton {
+   background-color: blueviolet;
+   padding: 2mm;
+   min-width: 2cm;
+   margin-left: 2mm;
+   border-radius: 4mm;
+   transition: all 200ms; 
+}
+
+.modalButton:hover {
+    filter: brightness(125%);
+}
+
+.ok {
+    background-color: #0a7e00;
+}
+
+.cancel {
+    background-color: #ce0000;
+}
