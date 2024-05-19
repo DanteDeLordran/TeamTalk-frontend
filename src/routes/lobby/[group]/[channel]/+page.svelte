@@ -12,8 +12,6 @@
     let bottom : HTMLElement
     let messages = data.messages ?? [];
 
-    console.log(messages)
-
     const createNewMessage = async() => {
         if (data.userId && data.channelId) {
             const messageRequest : MessageRequest = {
@@ -31,10 +29,23 @@
                 return;
             }
             
-            invalidateAll();
+            await invalidateAll();
             message = '';
             bottom.scrollIntoView({ behavior: 'smooth' });
     
+        }
+    }
+
+    const deleteMessage = async(messageId : string) => {
+        if (data.token) {
+            const response = await fetch('http://localhost:8000/messages/delete/' + messageId ,{ 
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json",
+                    token: data.token
+                },
+            })
+            if (response.ok) await invalidateAll();
         }
     }
 
@@ -52,6 +63,8 @@
         <span>{message.user_id}</span>
         <p>{message.message}</p>
         <span>{message.createdAt.toLocaleString()}</span>
+        <button on:click={() => deleteMessage(message.id)}>Delete</button>
+    
     </div>
     {/each}
 </div>
@@ -59,7 +72,8 @@
 {/if}
 <div class="fixed bottom-0 w-full p-2 bg-zinc-900 text-cyan-50">
     <form class="flex items-center" on:submit={createNewMessage}>
-        <textarea class="text-black w-full messageInput" placeholder="Write a message" maxlength="500" bind:value={message}/>
+        <!-- <textarea class="text-black w-full messageInput" placeholder="Write a message"  bind:value={message}/> -->
+        <input type="text" class="text-black w-full messageInput" placeholder="Write a message"  bind:value={message} >
         <button class="submitButton mx-2" disabled={message.length == 0} >Send</button>
     </form>
 </div>
